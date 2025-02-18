@@ -37,16 +37,13 @@ export default function EditModal({ user, onClose }) {
       email: email,
     };
 
-    const response = await fetch(
-      `https://crud-app-lyart-three.vercel.app/api`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json; charset=UTF-8",
-        },
-        body: JSON.stringify(updatedUser),
-      }
-    );
+    const response = await fetch(`/api`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify(updatedUser),
+    });
 
     if (!response.ok) {
       throw new Error("Failed to update user");

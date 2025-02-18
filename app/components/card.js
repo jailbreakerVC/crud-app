@@ -16,7 +16,7 @@ export default function Card({ user, index }) {
   }
 
   async function deleteUser() {
-    const deletePromise = fetch("https://crud-app-lyart-three.vercel.app/api", {
+    const deletePromise = fetch("/api", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

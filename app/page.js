@@ -3,7 +3,8 @@ import FloatingButton from "./components/plusButton";
 import { Toaster } from "react-hot-toast";
 
 export default async function Home() {
-  const response = await fetch("https://crud-app-lyart-three.vercel.app/api");
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const response = await fetch(`${BASE_URL}/api`);
   const users = await response.json();
   console.log(users);
 
