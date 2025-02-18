@@ -3,10 +3,9 @@ import FloatingButton from "./components/plusButton";
 import { Toaster } from "react-hot-toast";
 
 export default async function Home() {
-
-  const response = await fetch("http://localhost:3000/api");
+  const response = await fetch("https://crud-app-lyart-three.vercel.app/api");
   const users = await response.json();
-  console.log(users)
+  console.log(users);
 
   return (
     <div className="p-12">
@@ -18,8 +17,8 @@ export default async function Home() {
       </div>
       <div class="fixed bottom-6 right-6">
         <FloatingButton />
-    </div>
-    <Toaster></Toaster>
+      </div>
+      <Toaster></Toaster>
     </div>
   );
 }

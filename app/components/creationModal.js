@@ -18,13 +18,16 @@ export default function CreationModal({ onClose }) {
       email: email,
     };
 
-    const response = await fetch("http://localhost:3000/api", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify(newUser),
-    });
+    const response = await fetch(
+      "https://crud-app-lyart-three.vercel.app/api",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify(newUser),
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Failed to create user");
