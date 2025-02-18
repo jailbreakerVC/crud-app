@@ -9,25 +9,21 @@ export default function FloatingButton() {
 
   useEffect(() => {
     if (isClicked) {
-      setIsModalOpen(true)
+      setIsModalOpen(true);
     }
-
-  }, [isClicked])
+  }, [isClicked]);
 
   return (
-    <div>
-    <button
-      onClick={() => setIsModalOpen(true)}
-      className={`fixed bottom-6 right-6 bg-blue-500 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-2xl 
+    <>
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className={`fixed bottom-6 right-6 bg-blue-500 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-2xl 
       hover:bg-blue-600`}
-    >
-      +
-    </button>
+      >
+        +
+      </button>
 
-     {isModalOpen && (
-            <CreationModal onClose={() => setIsModalOpen(false)} />
-          )}
-
-          </div>
+      {isModalOpen && <CreationModal onClose={() => setIsModalOpen(false)} />}
+    </>
   );
 }

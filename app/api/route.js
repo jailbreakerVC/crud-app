@@ -1,11 +1,9 @@
 import { NextResponse } from "next/server";
-import fs from "fs"
+import fs from "fs";
 import path from "path";
 import _ from "lodash";
 
-
 const filePath = path.join(process.cwd(), "data", "users.json");
-
 
 const readData = () => {
   const data = fs.readFileSync(filePath, "utf8");
@@ -16,8 +14,15 @@ const writeData = (data) => {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf8");
 };
 
+// Function to introduce a random delay (between 1 and 2 seconds)
+const randomDelay = () => {
+  const delay = Math.random() * 1000 + 1000; // Random between 1000ms (1s) and 2000ms (2s)
+  return new Promise((resolve) => setTimeout(resolve, delay));
+};
+
 // Add a new user
 export async function POST(request) {
+  await randomDelay();
   try {
     const users = readData();
     const newUser = await request.json();
@@ -30,19 +35,17 @@ export async function POST(request) {
   } catch (error) {
     return NextResponse.json({ error: "Failed to add user" }, { status: 500 });
   }
-
-
-  
 }
-
 
 // Update a user
 export async function PUT(request) {
-  console.log("Recieved call for update user")
+  console.log("Received call for update user");
+  await randomDelay();
   try {
     const users = readData();
     const updatedUser = await request.json();
-    console.log("Updated User: ", updatedUser)
+    console.log("Updated User: ", updatedUser);
+    
     const index = users.findIndex((user) => user.id === updatedUser.id);
     if (index === -1) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -53,23 +56,22 @@ export async function PUT(request) {
     console.log("After update:", users[index]);
 
     writeData(users);
-    console.log("returing response")
+    console.log("Returning response");
     return NextResponse.json({ message: "User updated", user: users[index] }, { status: 200 });
   } catch (error) {
-    console.log(
-      "ERROR", error
-    )
+    console.log("ERROR", error);
     return NextResponse.json({ error: "Failed to update user" }, { status: 500 });
   }
 }
 
-
+// Delete a user
 export async function DELETE(request) {
+  console.log("Received request for DELETE");
+  await randomDelay();
   try {
-    console.log("recieved request for DELETE")
     const users = readData();
     const { id } = await request.json(); // Expect { "id": X }
-    console.log("ID", id)
+    console.log("ID", id);
 
     const filteredUsers = users.filter((user) => user.id !== id);
     if (filteredUsers.length === users.length) {
@@ -79,12 +81,14 @@ export async function DELETE(request) {
     writeData(filteredUsers);
     return NextResponse.json({ message: "User deleted" }, { status: 200 });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return NextResponse.json({ error: "Failed to delete user" }, { status: 500 });
   }
 }
 
+// Get all users
 export async function GET() {
+  await randomDelay();
   try {
     const users = readData();
     return NextResponse.json(users, { status: 200 });

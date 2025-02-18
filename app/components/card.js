@@ -1,39 +1,47 @@
 "use client";
 
-import { use, useState } from "react";
+import { useState } from "react";
 import EditModal from "./editModal";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 export default function Card({ user, index }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  const router = useRouter()
-
+  const router = useRouter();
 
   function handleEditClick() {
-     setSelectedUser(user);
-     setIsModalOpen(true);
-   }
+    setSelectedUser(user);
+    setIsModalOpen(true);
+  }
 
-   function DeleterUser() {
-    fetch("http://localhost:3000/api", {
+  async function deleteUser() {
+    const deletePromise = fetch("http://localhost:3000/api", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({"id": user.id})
-    })
-    .then((response) => {
+      body: JSON.stringify({ id: user.id }),
+    }).then((response) => {
       if (!response.ok) {
-
         throw new Error("Failed to delete item");
       }
-      router.refresh()
+      router.refresh();
       return response.json();
-    })
-    .then((data) => console.log("Item deleted successfully", data))
-    .catch((error) => console.error("Error:", error));
-   }
+    });
+
+    toast.promise(deletePromise, {
+      loading: "Deleting...",
+      success: "User deleted successfully!",
+      error: "Failed to delete user.",
+    });
+
+    try {
+      await deletePromise;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
 
   return (
     <>
@@ -45,18 +53,20 @@ export default function Card({ user, index }) {
           <h3 className="italic">aka {user.username}</h3>
           <p>{user.email}</p>
           <div className="flex flex-row gap-4 mt-4">
-            <button
-              onClick={() => handleEditClick()}
-              className="btn btn-info flex-1"
-            >
+            <button onClick={handleEditClick} className="btn btn-info flex-1">
               Edit
             </button>
-            <button onClick={()=> DeleterUser()} className="btn btn-error flex-1">Delete</button>
+            <button onClick={deleteUser} className="btn btn-error flex-1">
+              Delete
+            </button>
           </div>
         </div>
         {isModalOpen && (
-        <EditModal user={selectedUser} onClose={() => setIsModalOpen(false)} />
-      )}
+          <EditModal
+            user={selectedUser}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
       </div>
     </>
   );

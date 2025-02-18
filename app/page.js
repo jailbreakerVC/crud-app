@@ -1,7 +1,6 @@
-
 import Card from "./components/card";
 import FloatingButton from "./components/plusButton";
-import CreationModal from "./components/creationModal";
+import { Toaster } from "react-hot-toast";
 
 export default async function Home() {
 
@@ -20,6 +19,7 @@ export default async function Home() {
       <div class="fixed bottom-6 right-6">
         <FloatingButton />
     </div>
+    <Toaster></Toaster>
     </div>
   );
 }

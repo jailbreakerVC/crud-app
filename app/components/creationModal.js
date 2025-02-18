@@ -1,52 +1,61 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 export default function CreationModal({ onClose }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [nickname, setnickname] = useState("")
-  const [loading, setLoading] = useState(false);
+  const [nickname, setNickname] = useState("");
   const [error, setError] = useState("");
-  const router = useRouter()
+  const router = useRouter();
 
+  async function createUser() {
+    const newUser = {
+      name: name,
+      username: nickname,
+      email: email,
+    };
+
+    const response = await fetch("http://localhost:3000/api", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify(newUser),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to create user");
+    }
+
+    return response.json();
+  }
 
   async function handleSave() {
-
-     const new_user = {
-          name: name,
-          username: nickname,
-          email: email
-     }
-
-
-    try {
-      const response = await fetch(
-        `http://localhost:3000/api`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-          },
-          body: JSON.stringify(new_user),
-        }
-      );
-
-      if (!response.ok) {
-          throw new Error("Failed to create user");
-        }
-        
-        const data = await response.json(); // Parse the JSON response
-        alert(JSON.stringify(data)); // Log or display the actual data
-        router.refresh()
-        onClose()
-     
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    if (!name.trim() || !email.trim() || !nickname.trim()) {
+      toast.error("All fields are required!");
+      return;
     }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Invalid email address!");
+      return;
+    }
+
+    toast
+      .promise(createUser(), {
+        loading: "Creating user...",
+        success: <b>User created successfully!</b>,
+        error: <b>Could not create user.</b>,
+      })
+      .then(() => {
+        router.refresh();
+        onClose();
+      })
+      .catch((err) => setError(err.message));
   }
 
   return (
@@ -71,24 +80,20 @@ export default function CreationModal({ onClose }) {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <label className="block mt-3">Nickname:</label>
-          <input
-            type="email"
-            className="input input-bordered w-full"
-            value={nickname}
-            onChange={(e) => setnickname(e.target.value)}
-          />
 
+        <label className="block mt-3">Nickname:</label>
+        <input
+          type="text"
+          className="input input-bordered w-full"
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
+        />
 
         {error && <p className="text-red-500">{error}</p>}
 
         <div className="modal-action">
-          <button
-            className="btn btn-primary"
-            onClick={handleSave}
-            disabled={loading}
-          >
-            {loading ? "Saving..." : "Save"}
+          <button className="btn btn-primary" onClick={handleSave}>
+            Save
           </button>
           <button className="btn btn-warning" onClick={onClose}>
             Cancel
