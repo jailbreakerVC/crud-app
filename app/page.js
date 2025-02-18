@@ -1,5 +1,6 @@
 
 import Card from "./components/card";
+import FloatingButton from "./components/plusButton";
 
 export default async function Home() {
 
@@ -15,7 +16,9 @@ export default async function Home() {
           <Card key={user.id} user={user} index={index} />
         ))}
       </div>
-      <button className="btn rounded-full"></button>
+      <div class="fixed bottom-6 right-6">
+        <FloatingButton></FloatingButton>
+    </div>
     </div>
   );
 }
