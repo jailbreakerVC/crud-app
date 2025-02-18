@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function EditModal({ user, onClose }) {
   const [name, setName] = useState(user.name);
@@ -8,6 +9,7 @@ export default function EditModal({ user, onClose }) {
   const [nickname, setnickname] = useState(user.username)
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter()
 
   useEffect(() => {
     setName(user.name);
@@ -18,25 +20,34 @@ export default function EditModal({ user, onClose }) {
     setLoading(true);
     setError("");
 
+    const updated_user = {
+     id: user.id,
+     name: name,
+     username: nickname,
+     email: email
+}
+
     try {
       const response = await fetch(
-        `https://jsonplaceholder.typicode.com/users/${user.id}`,
+        `http://localhost:3000/api`,
         {
-          method: "PATCH",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json; charset=UTF-8",
           },
-          body: JSON.stringify({ name, email }),
+          body: JSON.stringify(updated_user),
         }
       );
 
       if (!response.ok) {
-        throw new Error("Failed to update user");
-      }
-      console.log(response.json());
-      alert("User updated successfully!");
-
-      //  onClose(); // ✅ Calls `handleUserUpdated` in `UserCard`
+          throw new Error("Failed to update user");
+        }
+        
+        const data = await response.json(); // Parse the JSON response
+        alert(JSON.stringify(data)); // Log or display the actual data
+        router.refresh()
+        onClose()
+     
     } catch (err) {
       setError(err.message);
     } finally {
