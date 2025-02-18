@@ -2,8 +2,10 @@
 import Card from "./components/card";
 
 export default async function Home() {
-  const response = await fetch("https://jsonplaceholder.typicode.com/users");
+
+  const response = await fetch("http://localhost:3000/api");
   const users = await response.json();
+  console.log(users)
 
   return (
     <div className="p-12">
