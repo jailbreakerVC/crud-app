@@ -2,15 +2,37 @@
 
 import { use, useState } from "react";
 import EditModal from "./editModal";
+import { useRouter } from "next/navigation";
 
 export default function Card({ user, index }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const router = useRouter()
 
 
   function handleEditClick() {
      setSelectedUser(user);
      setIsModalOpen(true);
+   }
+
+   function DeleterUser() {
+    fetch("http://localhost:3000/api", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({"id": user.id})
+    })
+    .then((response) => {
+      if (!response.ok) {
+
+        throw new Error("Failed to delete item");
+      }
+      router.refresh()
+      return response.json();
+    })
+    .then((data) => console.log("Item deleted successfully", data))
+    .catch((error) => console.error("Error:", error));
    }
 
   return (
@@ -29,7 +51,7 @@ export default function Card({ user, index }) {
             >
               Edit
             </button>
-            <button className="btn btn-error flex-1">Delete</button>
+            <button onClick={()=> DeleterUser()} className="btn btn-error flex-1">Delete</button>
           </div>
         </div>
         {isModalOpen && (

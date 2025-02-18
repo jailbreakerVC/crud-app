@@ -35,22 +35,6 @@ export async function POST(request) {
   
 }
 
-function deepMerge(target, source) {
-  for (const key in source) {
-    if (
-      source[key] &&
-      typeof source[key] === "object" &&
-      !Array.isArray(source[key])
-    ) {
-      if (!target[key]) target[key] = {};
-      deepMerge(target[key], source[key]);
-    } else {
-      target[key] = source[key];
-    }
-  }
-  return target;
-}
-
 
 // Update a user
 export async function PUT(request) {
@@ -82,8 +66,10 @@ export async function PUT(request) {
 
 export async function DELETE(request) {
   try {
+    console.log("recieved request for DELETE")
     const users = readData();
     const { id } = await request.json(); // Expect { "id": X }
+    console.log("ID", id)
 
     const filteredUsers = users.filter((user) => user.id !== id);
     if (filteredUsers.length === users.length) {
@@ -93,6 +79,7 @@ export async function DELETE(request) {
     writeData(filteredUsers);
     return NextResponse.json({ message: "User deleted" }, { status: 200 });
   } catch (error) {
+    console.log(error)
     return NextResponse.json({ error: "Failed to delete user" }, { status: 500 });
   }
 }
