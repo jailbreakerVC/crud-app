@@ -96,6 +96,7 @@
 //     return NextResponse.json({ error: "Failed to fetch users" }, { status: 500 });
 //   }
 // }
+export const dynamic = "force-dynamic";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
