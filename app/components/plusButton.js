@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import CreationModal from "./creationModal";
 
-export default function FloatingButton() {
+export default function FloatingButton({ onUserUpdated }) {
   const [isClicked, setIsClicked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -23,7 +23,12 @@ export default function FloatingButton() {
         +
       </button>
 
-      {isModalOpen && <CreationModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <CreationModal
+          onClose={() => setIsModalOpen(false)}
+          onUserUpdated={onUserUpdated}
+        />
+      )}
     </>
   );
 }

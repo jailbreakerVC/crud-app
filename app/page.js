@@ -63,7 +63,7 @@ export default function Home() {
       )}
 
       <div className="fixed bottom-6 right-6">
-        <FloatingButton />
+        <FloatingButton onUserUpdated={fetchUsers} />
       </div>
       <Toaster />
     </div>

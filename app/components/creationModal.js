@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
-export default function CreationModal({ onClose }) {
+export default function CreationModal({ onClose, onUserUpdated }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [nickname, setNickname] = useState("");
@@ -52,7 +52,7 @@ export default function CreationModal({ onClose }) {
         error: <b>Could not create user.</b>,
       })
       .then(() => {
-        router.refresh();
+        onUserUpdated();
         onClose();
       })
       .catch((err) => setError(err.message));

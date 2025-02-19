@@ -26,7 +26,7 @@ export default function Card({ user, index, onUserUpdated }) {
       if (!response.ok) {
         throw new Error("Failed to delete item");
       }
-      router.refresh();
+      onUserUpdated();
       return response.json();
     });
 
