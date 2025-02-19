@@ -5,7 +5,7 @@ import EditModal from "./editModal";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
-export default function Card({ user, index }) {
+export default function Card({ user, index, onUserUpdated }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const router = useRouter();
@@ -65,6 +65,7 @@ export default function Card({ user, index }) {
           <EditModal
             user={selectedUser}
             onClose={() => setIsModalOpen(false)}
+            onUserUpdated={onUserUpdated}
           />
         )}
       </div>
