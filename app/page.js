@@ -10,24 +10,24 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchUsers() {
-      const toastId = toast.loading("Loading users...");
-      try {
-        const response = await fetch(`/api`);
-        if (!response.ok) throw new Error("Failed to fetch users");
+  async function fetchUsers() {
+    const toastId = toast.loading("Loading users...");
+    try {
+      const response = await fetch(`/api`);
+      if (!response.ok) throw new Error("Failed to fetch users");
 
-        const data = await response.json();
-        setUsers(data);
-        toast.success("Users loaded successfully!", { id: toastId });
-      } catch (err) {
-        setError(err.message);
-        toast.error("Error loading users", { id: toastId });
-      } finally {
-        setLoading(false);
-      }
+      const data = await response.json();
+      setUsers(data);
+      toast.success("Users loaded successfully!", { id: toastId });
+    } catch (err) {
+      setError(err.message);
+      toast.error("Error loading users", { id: toastId });
+    } finally {
+      setLoading(false);
     }
+  }
 
+  useEffect(() => {
     fetchUsers();
   }, []);
 
