@@ -11,7 +11,7 @@ A simple and efficient **CRUD (Create, Read, Update, Delete) application** built
 
 - [@JailbreakerVC](https://www.github.com/jailbreakerVC)
 
-Made for Company Assignment given by ContactWise by Vijit Chandna
+Made for Company Assignment (Contactwise) by Vijit Chandna
 
 ## 🚀 Features
 
