@@ -44,7 +44,7 @@ export async function PUT(request) {
       where: { id },
       data: { name, email, username },
     });
-    revalidatePath("/api");
+
     return NextResponse.json(
       { message: "User updated", user: updatedUser },
       { status: 200 }

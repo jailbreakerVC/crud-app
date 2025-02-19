@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import { revalidatePath } from "next/cache";
 
 export default function EditModal({ user, onClose }) {
   const [name, setName] = useState(user.name);
@@ -63,6 +64,7 @@ export default function EditModal({ user, onClose }) {
         error: "Could not update user.",
       })
       .then(() => {
+        revalidatePath("/api");
         router.refresh();
         onClose();
       });
