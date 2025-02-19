@@ -6,7 +6,7 @@
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-A simple and efficient **CRUD (Create, Read, Update, Delete) application** built using **Next.js**, **Prisma**, and **Neon SQL database**, deployed on **Vercel**.
+A simple and efficient **CRUD (Create, Read, Update, Delete) application** built using **Next.js**, **Prisma**, and **Neon SQL database**, deployed on **Vercel**. Could not use JSON placeholder API as it does not persist the changes made.
 
 ## Authors
 
