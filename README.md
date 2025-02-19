@@ -4,6 +4,7 @@
 ![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
 ![Neon](https://img.shields.io/badge/Neon%20DB-00B4F0?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
 A simple and efficient **CRUD (Create, Read, Update, Delete) application** built using **Next.js**, **Prisma**, and **Neon SQL database**, deployed on **Vercel**.
 
