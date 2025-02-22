@@ -27,6 +27,19 @@ export default function Home() {
     }
   }
 
+  async function refetchUsers() {
+    try {
+      const response = await fetch(`/api`);
+      if (!response.ok) throw new Error("Failed to fetch users");
+      const data = await response.json();
+      setUsers(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -56,14 +69,14 @@ export default function Home() {
               key={user.id}
               user={user}
               index={index}
-              onUserUpdated={fetchUsers}
+              onUserUpdated={refetchUsers}
             />
           ))}
         </div>
       )}
 
       <div className="fixed bottom-6 right-6">
-        <FloatingButton onUserUpdated={fetchUsers} />
+        <FloatingButton onUserUpdated={refetchUsers} />
       </div>
       <Toaster />
     </div>
